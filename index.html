@@ -1,1 +1,57 @@
 # CLOSEYOUREYES-2SHOT
+<script>
+  const price = 4000;
+
+  const members = [
+    "JEON MINWOOK",
+    "MA JINGXIANG",
+    "JANG YEOJUN",
+    "KIM SUNGMIN",
+    "SONG SEUNGHO",
+    "KENSHIN",
+    "SEO KYOUNGBAE"
+  ];
+
+  let drawCount = 0;
+  let totalAmount = 0;
+  let history = [];
+
+  function draw() {
+    drawCount++;
+    totalAmount += price;
+
+    // 浮動中選率（不顯示、不固定）
+    const winRate = 0.15 + Math.random() * 0.10;
+    const isWin = Math.random() < winRate;
+
+    let resultText = "";
+
+    if (isWin) {
+      // 中選：直接顯示成員名稱
+      const member = members[Math.floor(Math.random() * members.length)];
+      resultText = member;
+
+      document.getElementById("result").innerHTML = `
+        <div class="win">${member}</div>
+      `;
+    } else {
+      // 未中：只顯示 はずれ
+      resultText = "はずれ";
+
+      document.getElementById("result").innerHTML = `
+        <div class="lose">はずれ</div>
+      `;
+    }
+
+    // 紀錄
+    history.unshift(`第${drawCount}回：${resultText}`);
+
+    document.getElementById("summary").innerHTML = `
+      抽選回数：${drawCount} 回<br>
+      累積金額：¥${totalAmount.toLocaleString()}
+    `;
+
+    document.getElementById("history").innerHTML =
+      history.map(h => `<div>${h}</div>`).join("");
+  }
+</script>
